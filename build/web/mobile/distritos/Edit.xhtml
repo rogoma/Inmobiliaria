@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <pm:page id="DistritosEditPage">
+        <pm:header title="#{myBundle.EditDistritosTitle}">
+            <p:button styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" outcome="pm:DistritosListPage"/>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="DistritosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{distritosController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditDistritosLabel_id}" for="id" />
+                            <h:outputText id="id" value="#{distritosController.selected.id}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditDistritosLabel_descripcion}" for="descripcion" />
+                            <p:inputText id="descripcion" value="#{distritosController.selected.descripcion}" title="#{myBundle.EditDistritosTitle_descripcion}" size="200" maxlength="200"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditDistritosLabel_departamentoId}" for="departamentoId" />
+                            <p:selectOneMenu id="departamentoId" value="#{distritosController.selected.departamentoId}"  converter="departamentosConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{departamentosController.items}"
+                                               var="departamentoIdItem"
+                                               itemValue="#{departamentoIdItem}"
+                                               itemLabel="#{departamentoIdItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{distritosController.save}" value="#{myBundle.Save}" update="display,:DistritosListPage:DistritosListForm:datalist,:growl" action="pm:DistritosListPage"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

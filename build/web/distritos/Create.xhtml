@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DistritosCreateDlg" widgetVar="DistritosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateDistritosTitle}" closeOnEscape="true">
+
+            <h:form id="DistritosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{distritosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateDistritosLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{distritosController.selected.id}" title="#{myBundle.CreateDistritosTitle_id}" required="true" requiredMessage="#{myBundle.CreateDistritosRequiredMessage_id}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDistritosLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{distritosController.selected.descripcion}" title="#{myBundle.CreateDistritosTitle_descripcion}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{myBundle.CreateDistritosLabel_departamentoId}" for="departamentoId" />
+                        <p:selectOneMenu id="departamentoId" value="#{distritosController.selected.departamentoId}"  converter="departamentosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{departamentosController.items}"
+                                           var="departamentoIdItem"
+                                           itemValue="#{departamentoIdItem}"
+                                           itemLabel="#{departamentoIdItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{distritosController.saveNew}" value="#{myBundle.Save}" update="display,:DistritosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DistritosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('DistritosCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
